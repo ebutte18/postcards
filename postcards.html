@@ -36,6 +36,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="postcards_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="postcards_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -70,7 +99,30 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Governor elections in the great state of Texas are a massive event. We will try and uncover patterns of human behavior that show why certain citizens voted for one candidate as opposed to another.</p>
+<p><span class="math display">\[
+\hat{Y}_i = \beta_0 + \beta_1 \cdot \text{treatment}_i + \beta_2 \cdot \text{sex}_i + \beta_3 \cdot \text{age}_i + \beta_4 \cdot \text{civ\_engage}_i
+\]</span></p>
+<p><span class="math display">\[
+\text{logit}(\Pr(Y_i = 1)) = \beta_0 + \beta_1 \cdot \text{sim}_{1i} + \beta_2 \cdot \text{sim}_{2i} + \cdots + \beta_6 \cdot \text{sim}_{6i}
+\]</span></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   term                 estimate std_error statistic  p_value conf_low conf_high
+   &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+ 1 (Intercept)           -2.43    0.0220    -111.    0        -2.48      -2.39  
+ 2 age                    0.0121  0.000287    42.2   0         0.0115     0.0126
+ 3 sexMale                0.0356  0.00757      4.70  2.60e- 6  0.0207     0.0504
+ 4 treatmentCivic Duty    0.0861  0.0444       1.94  5.27e- 2 -0.00162    0.173 
+ 5 treatmentHawthorne     0.0707  0.0453       1.56  1.18e- 1 -0.0187     0.159 
+ 6 treatmentSelf          0.202   0.0430       4.70  2.56e- 6  0.118      0.286 
+ 7 treatmentNeighbors     0.359   0.0416       8.62  6.86e-18  0.277      0.440 
+ 8 voter_classSometime…   0.820   0.0203      40.3   0         0.780      0.860 
+ 9 voter_classAlways V…   1.61    0.0216      74.6   0         1.57       1.65  
+10 treatmentCivic Duty…   0.0308  0.0471       0.654 5.13e- 1 -0.0610     0.124 </code></pre>
+</div>
+</div>
+<p>Governor elections in the great state of Texas are a massive event. We will try and uncover patterns of human behavior that show why certain citizens voted for one candidate as opposed to another. A weakness in my model is trying to draw conclusions from michigan elections and apply them to texas elections. I modeled the impact of postcards on voter’s decision for a political candidate as a logistic regression function of another election in AMerica.</p>
 
 </main>
 <!-- /main column -->

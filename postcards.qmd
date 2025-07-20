@@ -12,6 +12,8 @@ execute:
 #| warning: false
 library(tidyverse)
 library(primer.data)
+library(tidymodels)
+library(broom)
 ```
 
 
@@ -29,4 +31,63 @@ x <- shaming |>
   mutate(voted = as.factor(primary_06))
 ```
 
-Governor elections in the great state of Texas are a massive event. We will try and uncover patterns of human behavior that show why certain citizens voted for one candidate as opposed to another. 
+$$
+\hat{Y}_i = \beta_0 + \beta_1 \cdot \text{treatment}_i + \beta_2 \cdot \text{sex}_i + \beta_3 \cdot \text{age}_i + \beta_4 \cdot \text{civ\_engage}_i
+$$
+
+
+$$
+\text{logit}(\Pr(Y_i = 1)) = \beta_0 + \beta_1 \cdot \text{sim}_{1i} + \beta_2 \cdot \text{sim}_{2i} + \cdots + \beta_6 \cdot \text{sim}_{6i}
+$$
+
+
+```{r}
+library(tibble)
+
+model_summary <- tibble::tibble(
+  term = c(
+    "(Intercept)",
+    "age",
+    "sexMale",
+    "treatmentCivic Duty",
+    "treatmentHawthorne",
+    "treatmentSelf",
+    "treatmentNeighbors",
+    "voter_classSometimes Vote",
+    "voter_classAlways Vote",
+    "treatmentCivic Duty:voter_classSometimes Vote"
+  ),
+  estimate = c(
+    -2.434345037, 0.012087706, 0.035583881, 0.086052489, 0.070663507,
+    0.202358812, 0.358818468, 0.819714170, 1.608953223, 0.030789566
+  ),
+  std_error = c(
+    0.0219687863, 0.0002867168, 0.0075705445, 0.0444229420, 0.0452646335,
+    0.0430280383, 0.0416393173, 0.0203450310, 0.0215576735, 0.0470730950
+  ),
+  statistic = c(
+    -110.8092636, 42.1590509, 4.7003068, 1.9371182, 1.5611196,
+    4.7029523, 8.6172995, 40.2906327, 74.6348265, 0.6540799
+  ),
+  p_value = c(
+    0, 0, 2.59771e-06, 5.27309e-02, 0.1184955,
+    2.564263e-06, 6.855166e-18, 0, 0, 0.5130603
+  ),
+  conf_low = c(
+    -2.477540311, 0.011525794, 0.020745959, -0.001619693, -0.018697445,
+    0.117501330, 0.276766195, 0.779980619, 1.566827493, -0.060959822
+  ),
+  conf_high = c(
+    -2.39142174, 0.01264971, 0.05042202, 0.17253951, 0.15876293,
+    0.28618923, 0.44000741, 0.85973464, 1.65133478, 0.12358568
+  )
+)
+
+model_summary
+
+```
+
+
+
+
+Governor elections in the great state of Texas are a massive event. We will try and uncover patterns of human behavior that show why certain citizens voted for one candidate as opposed to another. A weakness in my model is trying to draw conclusions from michigan elections and apply them to texas elections. I modeled the impact of postcards on voter's decision for a political candidate as a logistic regression function of another election in AMerica. 
