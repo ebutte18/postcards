@@ -2,5 +2,31 @@
 title: "Voting and Postcards"
 author: "Eric Butte"
 format: html
+execute: 
+  echo: false
 ---
 
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(primer.data)
+```
+
+
+```{r}
+x <- shaming |> 
+  mutate(civ_engage = primary_00 + primary_02 + primary_04 + 
+                      general_00 + general_02 + general_04) |> 
+  select(primary_06, treatment, sex, age, civ_engage) |>
+  mutate(voter_class = case_when(
+    civ_engage %in% c(5, 6) ~ "Always Vote",
+    civ_engage %in% c(3, 4) ~ "Sometimes Vote",
+    civ_engage %in% c(1, 2) ~ "Rarely Vote"
+  ),
+  voter_class = factor(voter_class, levels = c("Rarely Vote", "Sometimes Vote", "Always Vote"), ordered = TRUE)) |>
+  mutate(voted = as.factor(primary_06))
+```
+
+Governor elections in the great state of Texas are a massive event. We will try and uncover patterns of human behavior that show why certain citizens voted for one candidate as opposed to another. 
